@@ -12,13 +12,29 @@ const addUsuarios = async (usuario) => {
 };
 
 const deleteUsuarios = async (id) => {
-  const removeUsuario = await connection.execute('DELETE FROM Usuarios WHERE id_usuario = ?', [id]);
+  const [removeUsuario] = await connection.execute('DELETE FROM Usuarios WHERE id_usuario = ?', [id]);
   return removeUsuario;
 };
+
+const updateUsuarios = async (id, novoUsuario) => {
+  const { nome, email, senha, data_nascimento, numero, endereco } = novoUsuario;
+  const query = 'UPDATE Usuarios SET nome=?, email=?, senha=?, data_nascimento=?, numero=?, endereco=? WHERE id_usuario=?';
+  const [result] = await connection.execute(query, [nome, email, senha, data_nascimento, numero, endereco, id], { timeout: 5000 });
+  return result;
+};
+
+const mostrarTodosUsuarios = async () => {
+  const usuarios = await connection.execute('SELECT * FROM Usuarios');
+  return usuarios;
+};
+
+
 
 
 module.exports = {
   getTodosAlimentos,
   addUsuarios,
-  deleteUsuarios
+  deleteUsuarios,
+  updateUsuarios,
+  mostrarTodosUsuarios
 };
