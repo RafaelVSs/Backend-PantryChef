@@ -42,13 +42,14 @@ const updateUsuarios = async (req, res) => {
   }
 };
 
-const mostrarTodosUsuarios = async (_req, res) => {
+const mostrarUsuario = async (req, res) => {
+  const { id } = req.params;
   try {
-    const [todosUsuarios] = await pantryModel.mostrarTodosUsuarios();
-    return res.status(200).json(todosUsuarios);
+    const usuario = await pantryModel.mostrarUsuario(id);
+    return res.status(200).json(usuario);
   } catch (error) {
-    console.error('Erro na rota mostrarTodosUsuarios:', error);
-    return res.status(500).json({ error: 'Erro interno do servidor' });
+    console.error('Erro na rota mostrarUsuarios:', error);
+    return res.status(404).json({ error: 'Usuário não encontrado' });
   }
 };
 
@@ -57,5 +58,5 @@ module.exports = {
   addUsuarios,
   deleteUsuarios,
   updateUsuarios,
-  mostrarTodosUsuarios
+  mostrarUsuario
 };

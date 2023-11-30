@@ -23,9 +23,20 @@ const updateUsuarios = async (id, novoUsuario) => {
   return result;
 };
 
-const mostrarTodosUsuarios = async () => {
-  const usuarios = await connection.execute('SELECT * FROM Usuarios');
-  return usuarios;
+// const mostrarUsuario = async (id) => {
+//   const [usuario] = await connection.execute('SELECT * FROM Usuarios WHERE id_usuario = ?', [id]);
+//   return usuario[0];
+// };
+const mostrarUsuario = async (id) => {
+  // Realizando a consulta SQL para buscar um usuário pelo código
+  const [results] = await connection.execute('SELECT * FROM Usuarios WHERE id_usuario = ?', [id]);
+
+  // Verificando se um usuário foi encontrado e retornando o resultado
+  if (results.length > 0) {
+    return results[0];
+  } else {
+    throw new Error('Usuário não encontrado'); // Lançando um erro se o usuário não for encontrado
+  }
 };
 
 
@@ -36,5 +47,5 @@ module.exports = {
   addUsuarios,
   deleteUsuarios,
   updateUsuarios,
-  mostrarTodosUsuarios
+  mostrarUsuario
 };
