@@ -4,7 +4,8 @@ const pantryMiddleware = require('./middlewares/pantryMiddleware');
 
 const router = express.Router();
 
-router.get('/usuarios/:id', pantryController.mostrarUsuario);
+router.post('/mostrarUsuario', pantryController.mostrarUsuario);
+router.get('/usuarios', pantryController.mostrarUsuario);
 router.get('/todosAlimentos', pantryController.getTodosAlimentos);
 router.post('/cadastro', pantryMiddleware.validateBody, pantryController.addUsuarios);
 router.delete('/usuarios/:id', pantryController.deleteUsuarios);

@@ -23,23 +23,21 @@ const updateUsuarios = async (id, novoUsuario) => {
   return result;
 };
 
-// const mostrarUsuario = async (id) => {
-//   const [usuario] = await connection.execute('SELECT * FROM Usuarios WHERE id_usuario = ?', [id]);
-//   return usuario[0];
-// };
-const mostrarUsuario = async (id) => {
-  // Realizando a consulta SQL para buscar um usuário pelo código
-  const [results] = await connection.execute('SELECT * FROM Usuarios WHERE id_usuario = ?', [id]);
 
-  // Verificando se um usuário foi encontrado e retornando o resultado
-  if (results.length > 0) {
-    return results[0];
-  } else {
-    throw new Error('Usuário não encontrado'); // Lançando um erro se o usuário não for encontrado
+const mostrarUsuario = async (email, senha) => {
+  try {
+    const [results] = await connection.execute('SELECT * FROM Usuarios WHERE email = ? AND senha = ?', [email, senha]);
+
+    if (results.length > 0) {
+      return results[0];
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Erro ao buscar usuário por credenciais no modelo:', error);
+    throw error;
   }
 };
-
-
 
 
 module.exports = {

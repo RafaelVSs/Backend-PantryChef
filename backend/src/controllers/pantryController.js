@@ -42,14 +42,23 @@ const updateUsuarios = async (req, res) => {
   }
 };
 
+
 const mostrarUsuario = async (req, res) => {
-  const { id } = req.params;
+  const { email, senha } = req.body;
+
   try {
-    const usuario = await pantryModel.mostrarUsuario(id);
-    return res.status(200).json(usuario);
+    const usuario = await pantryModel.mostrarUsuario(email, senha);
+
+    if (usuario !== null) {
+      // Salva as informações do usuário na sessão
+      req.session.usuario = usuario;
+      return res.status(200).json(usuario);
+    } else {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
   } catch (error) {
-    console.error('Erro na rota mostrarUsuarios:', error);
-    return res.status(404).json({ error: 'Usuário não encontrado' });
+    console.error('Erro na rota de mostrarUsuario:', error);
+    return res.status(500).json({ error: 'Erro interno do servidor' });
   }
 };
 
@@ -59,4 +68,5 @@ module.exports = {
   deleteUsuarios,
   updateUsuarios,
   mostrarUsuario
+  
 };

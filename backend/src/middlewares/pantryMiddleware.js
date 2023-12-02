@@ -10,8 +10,16 @@ const validateBody = (req, res, next) => {
   // Se todos os campos estiverem presentes, passa para a próxima middleware
   next();
 };
+
+const requireAuth = (req, res, next) => {
+  if (!req.session.usuario) {
+    return res.status(401).json({ error: 'Usuário não autenticado' });
+  }
+  next();
+};
   
 
 module.exports = {
-  validateBody
+  validateBody,
+  requireAuth
 };
