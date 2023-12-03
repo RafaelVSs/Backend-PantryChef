@@ -10,4 +10,5 @@ router.get('/todosAlimentos', pantryController.getTodosAlimentos);
 router.post('/cadastro', pantryMiddleware.validateBody, pantryController.addUsuarios);
 router.delete('/usuarios/:id', pantryController.deleteUsuarios);
 router.put('/usuarios/:id',pantryMiddleware.validateBody, pantryController.updateUsuarios);
+router.get('/todasReceitas', pantryController.mostrarReceitas);
 module.exports = router;

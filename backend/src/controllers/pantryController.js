@@ -62,11 +62,22 @@ const mostrarUsuario = async (req, res) => {
   }
 };
 
+const mostrarReceitas = async (_req, res) => {
+  try {
+    const [todasReceitas] = await pantryModel.mostrarReceitas();
+    return res.status(200).json(todasReceitas);
+  } catch (error) {
+    console.error('Erro na rota todasReceitas:', error);
+    return res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+};
+
 module.exports = {
   getTodosAlimentos,
   addUsuarios,
   deleteUsuarios,
   updateUsuarios,
-  mostrarUsuario
+  mostrarUsuario,
+  mostrarReceitas
   
 };

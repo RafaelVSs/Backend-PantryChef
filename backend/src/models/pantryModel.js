@@ -38,6 +38,10 @@ const mostrarUsuario = async (email, senha) => {
     throw error;
   }
 };
+const mostrarReceitas = async () => {
+  const todasReceitas = await connection.execute('SELECT r.id_receita, r.NomeReceita, r.Ingredientes, r.ModoPreparo, i.id_alimento, i.nome FROM Receitas r INNER JOIN Alimento i ON FIND_IN_SET(i.id_alimento, REPLACE(r.Ingredientes, " ", ""))');
+  return todasReceitas;
+};
 
 
 module.exports = {
@@ -45,5 +49,9 @@ module.exports = {
   addUsuarios,
   deleteUsuarios,
   updateUsuarios,
-  mostrarUsuario
+  mostrarUsuario,
+  mostrarReceitas
 };
+
+
+
