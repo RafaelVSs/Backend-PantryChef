@@ -48,6 +48,10 @@ const mostrarReceitas = async () => {
   }
 };
 
+const filtroReceitas = async () => {
+
+};
+
 
 
 module.exports = {
