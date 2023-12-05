@@ -39,9 +39,15 @@ const mostrarUsuario = async (email, senha) => {
   }
 };
 const mostrarReceitas = async () => {
-  const todasReceitas = await connection.execute('SELECT r.id_receita, r.NomeReceita, r.Ingredientes, r.ModoPreparo, i.id_alimento, i.nome FROM Receitas r INNER JOIN Alimento i ON FIND_IN_SET(i.id_alimento, REPLACE(r.Ingredientes, " ", ""))');
-  return todasReceitas;
+  try {
+    const todasReceitas = await connection.execute('SELECT r.id_receita, r.NomeReceita, GROUP_CONCAT(a.id_alimento SEPARATOR \', \') AS Ingredientes, GROUP_CONCAT(a.nome ORDER BY a.id_alimento SEPARATOR \' \') AS IngredientesSeparados, r.ModoPreparo FROM Receitas r JOIN Alimento a ON FIND_IN_SET(a.id_alimento, REPLACE(r.Ingredientes, \', \', \',\')) GROUP BY r.id_receita', []);
+    return todasReceitas;
+  } catch (error) {
+    console.error('Erro ao executar a consulta:', error);
+    throw error;
+  }
 };
+
 
 
 module.exports = {

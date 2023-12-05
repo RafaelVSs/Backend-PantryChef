@@ -17,9 +17,19 @@ const requireAuth = (req, res, next) => {
   }
   next();
 };
+
+const verificarAutenticacao = (req, res, next) => {
+  // Lógica para verificar a autenticação
+  if (req.session && req.session.usuario) {
+    return next(); // O usuário está autenticado, continue para a próxima rota
+  } else {
+    return res.status(401).json({ error: 'Não autorizado' });
+  }
+};
   
 
 module.exports = {
   validateBody,
-  requireAuth
+  requireAuth,
+  verificarAutenticacao
 };
